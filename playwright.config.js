@@ -3,11 +3,11 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   testDir: './tests',
   timeout: 90000,
-  fullyParallel: false, // Ensures controlled execution
+  fullyParallel: true, // Ensures controlled execution
   workers: 2, // Limits to 2 parallel executions
   reporter: [['html', { open: 'never' }], ['list']],
   use: {
-    headless: false,
+    headless: true,
     screenshot: 'only-on-failure',
     video: 'off',
   },
