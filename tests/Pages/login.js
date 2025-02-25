@@ -64,9 +64,6 @@ class LoginPage {
 
  
 
-  
-
-  // Password field selector
   PasswordField() {
     return this.page.locator('[placeholder="Password"]');
   }
