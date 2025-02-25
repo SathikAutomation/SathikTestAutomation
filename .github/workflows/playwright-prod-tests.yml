@@ -28,7 +28,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Install Playwright Browsers  # ✅ This fixes the issue
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Run Playwright Tests for Prod (${{ matrix.project }})
@@ -38,5 +38,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4  
         with:
-          name: playwright-prod-results
+          name: playwright-prod-results-${{ matrix.project }}  # Unique name per project
           path: playwright-report/
