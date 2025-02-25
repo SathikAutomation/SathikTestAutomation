@@ -18,22 +18,25 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4  # Updated to v4
+        uses: actions/checkout@v4  
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4  # Updated to v4
+        uses: actions/setup-node@v4  
         with:
           node-version: 18
 
       - name: Install Dependencies
         run: npm install
 
+      - name: Install Playwright Browsers  # ✅ This fixes the issue
+        run: npx playwright install --with-deps
+
       - name: Run Playwright Tests for Prod (${{ matrix.project }})
         run: npx playwright test --project=${{ matrix.project }}
 
       - name: Upload Playwright Test Results
         if: always()
-        uses: actions/upload-artifact@v4  # ✅ Fixed the deprecated version
+        uses: actions/upload-artifact@v4  
         with:
           name: playwright-prod-results
           path: playwright-report/
