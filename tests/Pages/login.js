@@ -3,10 +3,72 @@ class LoginPage {
     this.page = page;
   }
 
-  // Email field selector
-  EmailField() {
-    return this.page.locator('[placeholder="Email or Username"]');
+  ProfileIcon(){
+
+    return this.page.getByRole('button', { name: 'Account' })
   }
+
+  SignInButton(){
+
+    return this.page.locator("//div[text()='Sign In']");
+  }
+
+  LoginButton() {
+    return this.page.getByRole('button', { name: 'Login' });
+  }
+
+  ShopifyLoginButton(){
+
+    return this.page.getByRole('button', { name: 'Log in' })
+  }
+
+  AuthenticationLoginButton(){
+
+    return this.page.getByRole('button', { name: 'Log in' }).click();
+  }
+
+  EmailField() {
+    return this.page.getByRole('textbox', { name: 'Enter Email Address' })
+  }
+
+  Password(){
+    return this.page.getByRole('textbox', { name: 'Enter Password' })
+  }
+
+  PermissionPasswordField(){
+    return this.page.getByRole('textbox', { name: 'Password' })
+  }
+
+  LoginText(){
+
+    return this.page.locator("//*[text()='Log in']")
+    
+  }
+  PermissionEmailField(){
+    return this.page.locator("//input[@id='account_email']")
+  }
+
+  ContinueWithEmail(){
+
+    return this.page.locator("//*[text()='Continue with email']") 
+    
+      }
+  
+  
+
+
+  EmptyEmailValidationMessage() {
+    return this.page.locator("//li[text()='Incorrect email or password.']");
+  }
+
+  AcceptCookiesButton() {
+    return this.page.getByRole('button', { name: 'Accept All Cookies' })
+  }
+
+
+ 
+
+  
 
   // Password field selector
   PasswordField() {
@@ -14,10 +76,7 @@ class LoginPage {
   }
 
   // Login button selector
-  LoginButton() {
-    return this.page.locator("//button[text()='Login']");
-  }
-
+ 
   // Setting link selector
   SettingLink() {
     return this.page.locator("//*[text()='Settings']");
@@ -29,9 +88,7 @@ class LoginPage {
   }
 
   // Empty Email Validation message
-  EmptyEmailValidationMessage() {
-    return this.page.locator("//*[text()=\"Email or Username\" is not allowed to be empty]");
-  }
+
 
   // Empty Password Validation message
   EmptyPasswordValidationMessage() {

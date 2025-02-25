@@ -1,10 +1,9 @@
-const { defineConfig, devices } = require('@playwright/test');
+const { devices } = require('@playwright/test');
 
-module.exports = defineConfig({
+module.exports = {
   testDir: './tests',
-  timeout: 20000,
+  timeout: 90000,
   forbidOnly: !!process.env.CI,
-  retries: 1,
   workers: 2,
   reporter: [
     ['list'],
@@ -15,27 +14,115 @@ module.exports = defineConfig({
     headless: false,
     launchOptions: {
       slowMo: 1000,
+      args: ['--start-maximized'],
     },
-    strict: true,
     trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'off',
-    viewport: { width: 1280, height: 720 },
+    viewport: null,
   },
+
   projects: [
     {
-      name: 'Desktop Chrome',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'US_Dev',
+      testDir: './tests/Smoke',
+      use: { baseURL: 'https://spanx-dev.myshopify.com/' }, 
+      dependencies: ['US_Dev_Desktop'], 
+    },  
+    {
+      name: 'CA_Dev',
+      testDir: './tests/Smoke',
+      use: { baseURL: 'https://spanx-ca-dev.myshopify.com/' },
+      dependencies: ['CA_Dev_Desktop', 'CA_Dev_Mobile'],
     },
-    // {
-    //   name: 'Mobile iPhone 15',
-    //   use: { ...devices['iPhone 15'] },
-    // },
+    {
+      name: 'US_Prod',
+      testDir: './tests/Smoke',
+      use: { baseURL: 'https://spanx.com/' },
+      dependencies: ['US_Prod_Desktop', 'US_Prod_Mobile'],
+    },
+    {
+      name: 'CA_Prod',
+      testDir: './tests/Smoke',
+      use: { baseURL: 'https://spanx.ca/' },
+      dependencies: ['CA_Prod_Desktop', 'CA_Prod_Mobile'],
+    },
+    {
+      name: 'US_Dev_Desktop',
+      testDir: './tests/Smoke',
+      use: { 
+        baseURL: 'https://spanx-dev.myshopify.com/',
+        ...devices['Desktop Chrome'],
+      },
+    },
+    {
+      name: 'US_Dev_Mobile',
+      testDir: './tests/Smoke',
+      use: { 
+        baseURL: 'https://spanx-dev.myshopify.com/',
+        ...devices['iPhone 15'],
+        isMobile: true, 
+      },
+    },
+    {
+      name: 'CA_Dev_Desktop',
+      testDir: './tests/Smoke',
+      use: { 
+        baseURL: 'https://spanx-ca-dev.myshopify.com/',
+        ...devices['Desktop Chrome'],
+      },
+    },
+    {
+      name: 'CA_Dev_Mobile',
+      testDir: './tests/Smoke',
+      use: { 
+        baseURL: 'https://spanx-ca-dev.myshopify.com/',
+        ...devices['iPhone 15'],
+        isMobile: true, 
+      },
+    },
+    {
+      name: 'US_Prod_Desktop',
+      testDir: './tests/Smoke',
+      use: { 
+        baseURL: 'https://spanx.com/',
+        ...devices['Desktop Chrome'],
+      },
+    },
+    {
+      name: 'US_Prod_Mobile',
+      testDir: './tests/Smoke',
+      use: { 
+        baseURL: 'https://spanx.com/',
+        ...devices['iPhone 15'],
+        isMobile: true, 
+      },
+    },
+    {
+      name: 'CA_Prod_Desktop',
+      testDir: './tests/Smoke',
+      use: { 
+        baseURL: 'https://spanx.ca/',
+        ...devices['Desktop Chrome'],
+      },
+    },
+    {
+      name: 'CA_Prod_Mobile',
+      testDir: './tests/Smoke',
+      use: { 
+        baseURL: 'https://spanx.ca/',
+        ...devices['iPhone 15'],
+        isMobile: true, 
+      },
+    },
   ],
-});
+};
 
 
 
+
+
+ // retries: 1,
 
   // {
     //   name: 'Desktop Chrome',
