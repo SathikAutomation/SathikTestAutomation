@@ -53,11 +53,7 @@ class LoginPage {
     return this.page.locator("//*[text()='Continue with email']") 
     
       }
-  
-  
-
-
-  EmptyEmailValidationMessage() {
+    EmptyEmailValidationMessage() {
     return this.page.locator("//li[text()='Incorrect email or password.']");
   }
 
