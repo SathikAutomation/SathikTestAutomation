@@ -1,114 +1,92 @@
-const { devices } = require('@playwright/test');
+const { defineConfig, devices } = require('@playwright/test');
 
-module.exports = {
+module.exports = defineConfig({
   testDir: './tests',
   timeout: 90000,
-  forbidOnly: !!process.env.CI,
-  workers: 2,
-  reporter: [
-    ['list'],
-    ['html', { open: 'always', outputFolder: 'test-report' }],
-    ['json'],
-  ],
+  fullyParallel: false, // Ensures controlled execution
+  workers: 2, // Limits to 2 parallel executions
+  reporter: [['html', { open: 'never' }], ['list']],
   use: {
     headless: false,
-    launchOptions: {
-      slowMo: 1000,
-      args: ['--start-maximized'],
-    },
-    trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'off',
-    viewport: null,
   },
 
   projects: [
-    {
-      name: 'US_Dev',
-      testDir: './tests/Smoke',
-      use: { baseURL: 'https://spanx-dev.myshopify.com/' }, 
-      dependencies: ['US_Dev_Desktop'], 
-    },  
-    {
-      name: 'CA_Dev',
-      testDir: './tests/Smoke',
-      use: { baseURL: 'https://spanx-ca-dev.myshopify.com/' },
-      dependencies: ['CA_Dev_Desktop', 'CA_Dev_Mobile'],
-    },
-    {
-      name: 'US_Prod',
-      testDir: './tests/Smoke',
-      use: { baseURL: 'https://spanx.com/' },
-      dependencies: ['US_Prod_Desktop', 'US_Prod_Mobile'],
-    },
-    {
-      name: 'CA_Prod',
-      testDir: './tests/Smoke',
-      use: { baseURL: 'https://spanx.ca/' },
-      dependencies: ['CA_Prod_Desktop', 'CA_Prod_Mobile'],
-    },
+
+    // ================================
+    // 🔴 DEVELOPMENT ENVIRONMENT (DEV)
+    // ================================
+
+    // US Dev - Desktop
     {
       name: 'US_Dev_Desktop',
-      testDir: './tests/Smoke',
       use: { 
         baseURL: 'https://spanx-dev.myshopify.com/',
         ...devices['Desktop Chrome'],
       },
     },
+    // US Dev - Mobile
     {
       name: 'US_Dev_Mobile',
-      testDir: './tests/Smoke',
       use: { 
         baseURL: 'https://spanx-dev.myshopify.com/',
         ...devices['iPhone 15'],
         isMobile: true, 
       },
     },
+
+    // CA Dev - Desktop
     {
       name: 'CA_Dev_Desktop',
-      testDir: './tests/Smoke',
       use: { 
         baseURL: 'https://spanx-ca-dev.myshopify.com/',
         ...devices['Desktop Chrome'],
       },
     },
+    // CA Dev - Mobile
     {
       name: 'CA_Dev_Mobile',
-      testDir: './tests/Smoke',
       use: { 
         baseURL: 'https://spanx-ca-dev.myshopify.com/',
         ...devices['iPhone 15'],
         isMobile: true, 
       },
     },
+
+    // ================================
+    // 🟢 PRODUCTION ENVIRONMENT (PROD)
+    // ================================
+
+    // US Prod - Desktop
     {
       name: 'US_Prod_Desktop',
-      testDir: './tests/Smoke',
       use: { 
         baseURL: 'https://spanx.com/',
         ...devices['Desktop Chrome'],
       },
     },
+    // US Prod - Mobile
     {
       name: 'US_Prod_Mobile',
-      testDir: './tests/Smoke',
       use: { 
         baseURL: 'https://spanx.com/',
         ...devices['iPhone 15'],
         isMobile: true, 
       },
     },
+
+    // CA Prod - Desktop
     {
       name: 'CA_Prod_Desktop',
-      testDir: './tests/Smoke',
       use: { 
         baseURL: 'https://spanx.ca/',
         ...devices['Desktop Chrome'],
       },
     },
+    // CA Prod - Mobile
     {
       name: 'CA_Prod_Mobile',
-      testDir: './tests/Smoke',
       use: { 
         baseURL: 'https://spanx.ca/',
         ...devices['iPhone 15'],
@@ -116,7 +94,10 @@ module.exports = {
       },
     },
   ],
-};
+});
+
+
+
 
 
 
