@@ -34,4 +34,4 @@ jobs:
         with:
           name: playwright-results-dev
           path: test-report/
-          retention-days: 10
+          retention-days: 11
