@@ -4,7 +4,7 @@ const HomePage = require('../Pages/HomePage');
 
 const test = baseTest.extend({
   loginpage: async ({ baseURL }, use) => {
-    const browser = await chromium.launch({ headless: false });
+    const browser = await chromium.launch({ headless: true });
     const browserContext = await browser.newContext();
     const page = await browserContext.newPage();
 
