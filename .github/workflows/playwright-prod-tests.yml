@@ -1,4 +1,4 @@
-name: Playwright Prod Tests
+name: Spanx Prod Automation
 
 on:
   workflow_dispatch:
