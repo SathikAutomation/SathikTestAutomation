@@ -6,7 +6,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 15 * * *"  # ✅ Runs at 10 AM EST (15:00 UTC)
+    - cron: "0 3 * * *"
 
 jobs:
   run-dev-tests:
@@ -34,26 +34,9 @@ jobs:
       - name: Run Playwright Tests for Dev (${{ matrix.project }})
         run: npx playwright test --project=${{ matrix.project }}
 
-      - name: Generate Playwright HTML Report
-        run: npx playwright show-report
-
-      - name: Upload Playwright Test Report
+      - name: Upload Playwright Test Results
         if: always()
         uses: actions/upload-artifact@v4  
         with:
-          name: playwright-dev-report-${{ matrix.project }}  
+          name: playwright-dev-results-${{ matrix.project }}  # Unique name per project
           path: playwright-report/
-
-      - name: Send Email with Report
-        if: always()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.EMAIL_USERNAME }}   # ✅ Store in GitHub Secrets
-          password: ${{ secrets.EMAIL_PASSWORD }}   # ✅ Store in GitHub Secrets
-          subject: "Playwright Dev Test Report - ${{ matrix.project }}"
-          to: "sathiksha.sf@gmail.com"
-          from: "GitHub Actions <your-email@example.com>"
-          body: "Playwright Dev test execution completed. Download the report from the attachment."
-          attachments: "playwright-report/index.html"
