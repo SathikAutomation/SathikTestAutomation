@@ -1,4 +1,4 @@
-name: Playwright Prod Tests
+name: Playwright Dev Tests
 
 on:
   workflow_dispatch:
@@ -9,12 +9,12 @@ on:
     - cron: "0 3 * * *"
 
 jobs:
-  run-prod-tests:
+  run-dev-tests:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        project: [US_Prod_Desktop, US_Prod_Mobile, CA_Prod_Desktop, CA_Prod_Mobile]
+        project: [US_Dev_Desktop, US_Dev_Mobile, CA_Dev_Desktop, CA_Dev_Mobile]
 
     steps:
       - name: Checkout Repository
@@ -31,14 +31,14 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright Tests for Prod (${{ matrix.project }})
+      - name: Run Playwright Tests for Dev (${{ matrix.project }})
         run: npx playwright test --project=${{ matrix.project }}
 
       - name: Upload Playwright Test Results
         if: always()
         uses: actions/upload-artifact@v4  
         with:
-          name: playwright-prod-results-${{ matrix.project }}
+          name: playwright-dev-results-${{ matrix.project }}
           path: playwright-report/
 
       - name: Send Email Notification
@@ -46,8 +46,8 @@ jobs:
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.yourcompany.com
-          server_port: 25  # No authentication required
-          subject: "Playwright Test Report - Prod (${{ matrix.project }})"
+          server_port: 25  # Change to 587 if needed
+          subject: "Playwright Test Report - Dev (${{ matrix.project }})"
           body: "Playwright test execution has completed. Please find the attached report."
           to: |
             sathiksha.sf@gmail.com

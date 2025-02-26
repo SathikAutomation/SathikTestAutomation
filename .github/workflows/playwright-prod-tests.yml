@@ -46,12 +46,12 @@ jobs:
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.yourcompany.com
-          server_port: 25  # No authentication required
+          server_port: 25  # Change to 587 if needed
           subject: "Playwright Test Report - Prod (${{ matrix.project }})"
           body: "Playwright test execution has completed. Please find the attached report."
           to: |
-            sathiksha.sf@gmail.com,
-            sathiksha.sb@gmail.com,
+            sathiksha.sf@gmail.com
+            sathiksha.sb@gmail.com
             sathik.a@vuedata.in
-            from: noreply@company.com
-            attachments: playwright-report/index.html
+          from: "noreply@company.com"
+          attachments: playwright-report/index.html
