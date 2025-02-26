@@ -45,13 +45,14 @@ jobs:
         if: always()
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.yourcompany.com  # Replace with actual SMTP server
-          server_port: 25  # Change if needed (common: 25, 587, 465)
+          server_address: smtp.yourcompany.com
+          server_port: 25  # No authentication required
           subject: "Playwright Test Report - Dev (${{ matrix.project }})"
           body: "Playwright test execution has completed. Please find the attached report."
           to: |
-            sathiksha.sf@gmail.com
-            sathiksha.sb@gmail.com
+            sathiksha.sf@gmail.com,
+            sathiksha.sb@gmail.com,
             sathik.a@vuedata.in
-          from: noreply@company.com  # Fixed incorrect `from` field
+          from: noreply@company.com
           attachments: playwright-report/index.html
+
