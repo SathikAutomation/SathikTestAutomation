@@ -49,8 +49,8 @@ jobs:
           server_port: 587  # Use 465 for SSL, 587 for TLS
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "✅ Playwright Test Report - Dev (${{ matrix.project }})"
-          body: "Playwright test execution has completed. Please find the attached report."
+          subject: "Spanx development Automation Script Execution Report - Dev (${{ matrix.project }})"
+          body: "Spanx development Automation Script Execution has completed. Please find the attached report."
           to: "sathiksha.sb@gmail.com"
           from: "Playwright Automation <${{ secrets.SMTP_USERNAME }}>"
           attachments: playwright-report/index.html
