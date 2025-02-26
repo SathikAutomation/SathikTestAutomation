@@ -50,8 +50,6 @@ jobs:
           subject: "Playwright Test Report - Dev (${{ matrix.project }})"
           body: "Playwright test execution has completed. Please find the attached report."
           to: |
-            sathiksha.sf@gmail.com
-            sathiksha.sb@gmail.com
-            sathik.a@vuedata.in
+              sathik.a@vuedata.in
           from: "noreply@company.com"
           attachments: playwright-report/index.html
