@@ -38,5 +38,20 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4  
         with:
-          name: playwright-prod-results-${{ matrix.project }}  # Unique name per project
+          name: playwright-prod-results-${{ matrix.project }}
           path: playwright-report/
+
+      - name: Send Email Notification
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.yourcompany.com  # Replace with your company's SMTP relay
+          server_port: 25  # Common ports: 25, 587, or 2525
+          subject: "Playwright Test Report - Prod (${{ matrix.project }})"
+          body: "Playwright test execution has completed. Please find the attached report."
+          to: |
+            sathiksha.sf@gmail.com,
+            sathiksha.sb@gmail.com,
+            sathik.a@vuedata.in
+            from: Playwright Automation <noreply@company.com>
+          attachments: playwright-report/index.html
