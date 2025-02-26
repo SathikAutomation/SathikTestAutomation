@@ -9,6 +9,9 @@ on:
     - cron: "0 3 * * *" # Runs daily at 03:00 UTC
 
 jobs:
+  # ---------------------------------------------
+  # 1) Run Tests in Matrix
+  # ---------------------------------------------
   run-prod-tests:
     runs-on: ubuntu-latest
 
@@ -18,28 +21,17 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4  
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4  
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
       - name: Install Dependencies
         run: npm install
 
-      - name: Cache Playwright Browsers
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-browsers
-
-      - name: Install Playwright Browsers for US Prod Desktop
-        if: ${{ matrix.project == 'US_Prod_Desktop' }}
-        run: npx playwright install chromium --with-deps
-
-      - name: Install Playwright Browsers for Other Projects
-        if: ${{ matrix.project != 'US_Prod_Desktop' }}
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Run Playwright Tests for Prod (${{ matrix.project }})
@@ -47,21 +39,88 @@ jobs:
 
       - name: Upload Playwright Test Results
         if: always()
-        uses: actions/upload-artifact@v4  
+        uses: actions/upload-artifact@v4
         with:
-          name: playwright-prod-results-${{ matrix.project }}
+          # Use the project name (e.g. US_Prod_Desktop) as artifact name
+          name: ${{ matrix.project }}
           path: playwright-report/
 
-      - name: Send Email Notification
+  # ---------------------------------------------
+  # 2) Send Consolidated Emails
+  # ---------------------------------------------
+  send-emails:
+    # This job depends on run-prod-tests finishing
+    needs: run-prod-tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # -------------------------------
+      # US: Download Desktop & Mobile
+      # -------------------------------
+      - name: Download US_Prod_Desktop
+        if: always()
+        uses: actions/download-artifact@v4
+        with:
+          name: US_Prod_Desktop
+          path: us/desktop
+
+      - name: Download US_Prod_Mobile
+        if: always()
+        uses: actions/download-artifact@v4
+        with:
+          name: US_Prod_Mobile
+          path: us/mobile
+
+      - name: Zip US Reports
+        run: zip -r us_prod_reports.zip us/
+
+      - name: Send US Email
         if: always()
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
-          server_port: 587  # Use 465 for SSL, 587 for TLS
+          server_port: 587
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Spanx Production Automation Script Execution Report - Prod (${{ matrix.project }})"
-          body: "Spanx Production Automation Script Execution has completed. Please find the attached report."
+          subject: "Spanx Production Automation Script Execution Report - Prod (US)"
+          body: "Spanx Production Automation Script Execution for US has completed. Please find the attached consolidated report."
           to: "sathiksha.sb@gmail.com"
           from: "Playwright Automation <${{ secrets.SMTP_USERNAME }}>"
-          attachments: playwright-report/index.html
+          attachments: us_prod_reports.zip
+
+      # -------------------------------
+      # CA: Download Desktop & Mobile
+      # -------------------------------
+      - name: Download CA_Prod_Desktop
+        if: always()
+        uses: actions/download-artifact@v4
+        with:
+          name: CA_Prod_Desktop
+          path: ca/desktop
+
+      - name: Download CA_Prod_Mobile
+        if: always()
+        uses: actions/download-artifact@v4
+        with:
+          name: CA_Prod_Mobile
+          path: ca/mobile
+
+      - name: Zip CA Reports
+        run: zip -r ca_prod_reports.zip ca/
+
+      - name: Send CA Email
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: 587
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "Spanx Production Automation Script Execution Report - Prod (CA)"
+          body: "Spanx Production Automation Script Execution for CA has completed. Please find the attached consolidated report."
+          to: "sathiksha.sb@gmail.com"
+          from: "Playwright Automation <${{ secrets.SMTP_USERNAME }}>"
+          attachments: ca_prod_reports.zip
