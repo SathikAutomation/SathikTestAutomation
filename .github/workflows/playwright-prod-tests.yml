@@ -6,7 +6,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 3 * * *" # Runs daily at 03:00 UTC
 
 jobs:
   run-prod-tests:
@@ -49,9 +49,8 @@ jobs:
           server_port: 587  # Use 465 for SSL, 587 for TLS
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Playwright Test Report - Prod (${{ matrix.project }})"
+          subject: "🚀 Playwright Test Report - Prod (${{ matrix.project }})"
           body: "Playwright test execution has completed. Please find the attached report."
-          to: |
-            sathiksha.sb@gmail.com
+          to: "sathiksha.sb@gmail.com"
           from: "Playwright Automation <${{ secrets.SMTP_USERNAME }}>"
           attachments: playwright-report/index.html
