@@ -45,11 +45,13 @@ jobs:
         if: always()
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.yourcompany.com
-          server_port: 25  # Change to 587 if needed
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: 587  # Use 465 for SSL, 587 for TLS
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
           subject: "Playwright Test Report - Prod (${{ matrix.project }})"
           body: "Playwright test execution has completed. Please find the attached report."
           to: |
-              sathik.a@vuedata.in
-          from: "noreply@company.com"
+            sathiksha.sb@gmail.com
+          from: "Playwright Automation <${{ secrets.SMTP_USERNAME }}>"
           attachments: playwright-report/index.html
