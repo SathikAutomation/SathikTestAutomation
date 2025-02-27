@@ -6,12 +6,10 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 3 * * *" # Runs daily at 03:00 UTC
+    - cron: "0 3 * * *"
 
 jobs:
-  # ---------------------------------------------
-  # 1) Run Tests in Matrix
-  # ---------------------------------------------
+
   run-prod-tests:
     runs-on: ubuntu-latest
 
@@ -41,15 +39,11 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          # Use the project name (e.g. US_Prod_Desktop) as artifact name
+       
           name: ${{ matrix.project }}
           path: playwright-report/
 
-  # ---------------------------------------------
-  # 2) Send Consolidated Emails
-  # ---------------------------------------------
   send-emails:
-    # This job depends on run-prod-tests finishing
     needs: run-prod-tests
     runs-on: ubuntu-latest
 
@@ -57,9 +51,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # -------------------------------
-      # US: Download Desktop & Mobile
-      # -------------------------------
       - name: Download US_Prod_Desktop
         if: always()
         uses: actions/download-artifact@v4
@@ -91,9 +82,6 @@ jobs:
           from: "Playwright Automation <${{ secrets.SMTP_USERNAME }}>"
           attachments: us_prod_reports.zip
 
-      # -------------------------------
-      # CA: Download Desktop & Mobile
-      # -------------------------------
       - name: Download CA_Prod_Desktop
         if: always()
         uses: actions/download-artifact@v4

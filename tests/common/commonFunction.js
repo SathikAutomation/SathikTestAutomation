@@ -4,7 +4,7 @@ const HomePage = require('../Pages/HomePage');
 
 const test = baseTest.extend({
   loginpage: async ({ baseURL }, use) => {
-    const browser = await chromium.launch({ headless: true });
+    const browser = await chromium.launch({ headless: false });
     const browserContext = await browser.newContext();
     const page = await browserContext.newPage();
 
@@ -36,6 +36,10 @@ const test = baseTest.extend({
 
     console.log('Test finished. Keeping browser open...');
    // await page.pause();
+  //  await page.close();
+  //  await browserContext.close();
+  //  await browser.close();
+ 
   },
 
   homepage: async ({ loginpage }, use) => {
@@ -102,6 +106,3 @@ module.exports = test;
 
 
 
-// await page.close();
-// await browserContext.close();
-// await browser.close();

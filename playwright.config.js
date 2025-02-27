@@ -3,8 +3,8 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   testDir: './tests',
   timeout: 90000,
-  fullyParallel: true, // Ensures controlled execution
-  workers: 2, // Limits to 2 parallel executions
+  fullyParallel: true, 
+  workers: 2, 
   reporter: [['html', { open: 'never' }], ['list']],
   use: {
     headless: true,
@@ -14,11 +14,6 @@ module.exports = defineConfig({
 
   projects: [
 
-    // ================================
-    // 🔴 DEVELOPMENT ENVIRONMENT (DEV)
-    // ================================
-
-    // US Dev - Desktop
     {
       name: 'US_Dev_Desktop',
       use: { 
@@ -26,7 +21,6 @@ module.exports = defineConfig({
         ...devices['Desktop Chrome'],
       },
     },
-    // US Dev - Mobile
     {
       name: 'US_Dev_Mobile',
       use: { 
@@ -36,7 +30,6 @@ module.exports = defineConfig({
       },
     },
 
-    // CA Dev - Desktop
     {
       name: 'CA_Dev_Desktop',
       use: { 
@@ -44,7 +37,7 @@ module.exports = defineConfig({
         ...devices['Desktop Chrome'],
       },
     },
-    // CA Dev - Mobile
+
     {
       name: 'CA_Dev_Mobile',
       use: { 
@@ -54,11 +47,6 @@ module.exports = defineConfig({
       },
     },
 
-    // ================================
-    // 🟢 PRODUCTION ENVIRONMENT (PROD)
-    // ================================
-
-    // US Prod - Desktop
     {
       name: 'US_Prod_Desktop',
       use: { 
@@ -66,7 +54,7 @@ module.exports = defineConfig({
         ...devices['Desktop Chrome'],
       },
     },
-    // US Prod - Mobile
+ 
     {
       name: 'US_Prod_Mobile',
       use: { 
@@ -76,7 +64,6 @@ module.exports = defineConfig({
       },
     },
 
-    // CA Prod - Desktop
     {
       name: 'CA_Prod_Desktop',
       use: { 
@@ -84,7 +71,7 @@ module.exports = defineConfig({
         ...devices['Desktop Chrome'],
       },
     },
-    // CA Prod - Mobile
+ 
     {
       name: 'CA_Prod_Mobile',
       use: { 
@@ -96,14 +83,7 @@ module.exports = defineConfig({
   ],
 });
 
-
-
-
-
-
-
-
- // retries: 1,
+// retries: 1,
 
   // {
     //   name: 'Desktop Chrome',
@@ -117,3 +97,10 @@ module.exports = defineConfig({
     //   name: 'Mobile Pixel 5',
     //   use: { ...devices['Pixel 5'] },
     // },
+
+
+
+
+
+
+ 

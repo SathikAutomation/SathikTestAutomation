@@ -19,20 +19,3 @@ test('Verify that the user can click on the Collections header link and ensure t
 // expect(currentURL).toBe('currentURL');
 
 });
-
-
-// test('Verify if the user can log in with valid credentials and then sign out', async ({ loginpage,homepage, baseURL }) => {
-    
-//     // if (baseURL.includes('spanx.com') || baseURL.includes('spanx-dev.myshopify.com')) {
-//     //     await loginpage.AcceptCookiesButton().click();
-//     // } else {
-//     //     console.log("Skipping 'Accept Cookies' for CA site.");
-//     // }
-//     // await homepage.ProfileIcon().scrollIntoViewIfNeeded().click();
-
-//     // await homepage.SignInButton().click();
-//     // await loginpage.EmailField().fill(inputData.Login.Email);
-//     // await loginpage.PasswordField().fill(inputData.Login.Password);
-//     // await loginpage.LoginButton().click();
-    
-// });

@@ -6,7 +6,7 @@ on:
     branches:
       - dev
   schedule:
-    - cron: "0 3 * * *" # Runs daily at 03:00 UTC
+    - cron: "0 3 * * *" 
 
 jobs:
   run-dev-tests:
@@ -46,7 +46,7 @@ jobs:
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
-          server_port: 587  # Use 465 for SSL, 587 for TLS
+          server_port: 587  
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: "Spanx Development Automation Script Execution Report - Dev (${{ matrix.project }})"
